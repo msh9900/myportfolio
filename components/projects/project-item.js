@@ -4,6 +4,7 @@ export default function ProjectItem({ data }) {
   const title = data.properties.Name.title[0].plain_text;
   const github = data.properties.Github.url;
   const youtube = data.properties.Youtube.url;
+  const pageLink = data.properties.PageLink.url;
   const description = data.properties.Description.rich_text[0].plain_text;
   const imgSrc = data.cover.file?.url || data.cover.external.url;
   const tags = data.properties.Tags.multi_select;
@@ -25,13 +26,9 @@ export default function ProjectItem({ data }) {
       endDateStringArray[2]
     );
 
-    console.log(`startDate: ${startDate}`);
-    console.log(`endDate: ${endDate}`);
-
     const diffInMs = Math.abs(endDate - startDate);
     const result = diffInMs / (1000 * 60 * 60 * 24);
 
-    console.log(`기간 : ${result}`);
     return result;
   };
 
@@ -52,7 +49,9 @@ export default function ProjectItem({ data }) {
         <h1 className="text-2xl font-bold">{title}</h1>
         <h3 className="mt-4 text-xl">{description}</h3>
         <a href={github}>깃허브 바로가기</a>
-        <a href={youtube}>유튜브 시연영상 보러가기</a>
+        {youtube && <a href={youtube}>유튜브 시연영상 보러가기</a>}
+        <a href={pageLink}>페이지 보러가기</a>
+
         <p className="my-1 ">
           작업기간 : {start} ~ {end} ({calculatedPeriod(start, end)}일)
         </p>
